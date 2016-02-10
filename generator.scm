@@ -1,5 +1,8 @@
+(add-to-load-path "./site")
+
 (use-modules (ice-9 ftw)
              (ice-9 match)
+             (ice-9 regex)
              (srfi srfi-9)
              (srfi srfi-19)
              (sxml html))
