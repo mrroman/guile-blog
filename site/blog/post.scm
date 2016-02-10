@@ -38,6 +38,25 @@
 
 ;; post parsing and loading
 
+(define (fix-url u)
+  (if (string-match "https?://" u)
+      u
+      (string-append "http://" u)))
+
+(define (parse-body b)
+  (if (null? b)
+      b
+      (cons
+       (match (car b)
+         (('p c ...) `(p ,(parse-body c)))
+         (('code lang t) `(pre (code (@ (class ,lang)) ,t)))
+         (('code t) `(pre (code ,t)))
+         (('b c ...) `(b ,(parse-body c)))
+         (('@ url) `(a (@ (href ,(fix-url url))) ,url))
+         (('@ url title) `(a (@ (href ,(fix-url url))) ,title))
+         ((? string? t) t))
+       (parse-body (cdr b)))))
+
 (define (parse-post-props ps p)
   (if (null? ps)
       p
@@ -47,7 +66,7 @@
                       (set-post-title! p t)
                       (parse-post-props (cdr ps) p)))
         (('body b ...) (begin
-                     (set-post-body! p b)
+                     (set-post-body! p (parse-body b))
                      (parse-post-props (cdr ps) p)))
         (_ (parse-post-props (cdr ps) p)))))
 

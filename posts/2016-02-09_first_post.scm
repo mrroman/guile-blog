@@ -18,4 +18,4 @@ the standard library :).")
   (p "
 GNU Guile is available almost in every Linux distribution and on MacOS X.
 It is just one command to install it:")
-  (pre (code "<your apt/yum/pacman> install guile"))))
+  (code "<your apt/yum/pacman/brew> install guile")))
