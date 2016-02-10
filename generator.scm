@@ -32,6 +32,7 @@
                (content "width=device-width, initial-scale=1")))
       (title ,blog-name)
       ,(link-css "https://fonts.googleapis.com/css?family=Cutive+Mono")
+      ,(link-css "https://fonts.googleapis.com/css?family=Open+Sans'")
       ,(link-css "css/main.css")
       ,(link-css "//cdn.jsdelivr.net/highlight.js/9.1.0/styles/default.min.css")
       ,(script-src "//cdn.jsdelivr.net/highlight.js/9.1.0/highlight.min.js")
