@@ -5,18 +5,18 @@
 (use-modules
  (blog html)
  ((blog post) #:select (post<? load-posts))
- (sxml html))
+ (sxml html)
+ (ice-9 format))
 
-(define blog-name "mrroman's blog")
-(define post-dir "./posts/")
+(load "config.scm")
 
-(define (output-blog)
-  (call-with-output-file "index.html"
-    (lambda (port)
-      (let* ((posts (load-posts post-dir))
-             (sorted-posts (sort-list posts post<?)))
-        (sxml->html (blog->sxml blog-name sorted-posts) port)))))
+(define (output-blog posts port)
+  (let ((sorted-posts (sort-list posts post<?)))
+    (sxml->html (blog->sxml blog-name sorted-posts) port)))
 
 (define (main args)
-  (display "Generate blog\n")
-  (output-blog))
+  (let ((posts (load-posts post-dir)))
+    (format #t "Generate blog for ~a...~%" blog-name)
+    (call-with-output-file "index.html"
+      (lambda (port)
+        (output-blog posts port)))))
